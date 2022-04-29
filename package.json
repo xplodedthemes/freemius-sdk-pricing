@@ -1,8 +1,8 @@
 {
-  "name": "freemius-pricing-page",
+  "name": "xt-freemius-pricing-page",
   "version": "1.0.0",
-  "private": true,
-  "dependencies": {
+	"private":  true,
+	"dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
@@ -11,7 +11,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
-  "scripts": {
+	"main": "dist/freemius-pricing.js",
+	"scripts": {
     "start": "cross-env NODE_ENV=development webpack --watch",
     "build": "cross-env NODE_ENV=production webpack",
     "format": "prettier ./src --write",
@@ -40,5 +41,9 @@
   },
   "lint-staged": {
     "*.{js,css,md,jsx,ts,tsx,json,scss,less}": "prettier --write"
-  }
+  },
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/xplodedthemes/freemius-sdk-pricing.git"
+	}
 }
