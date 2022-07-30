@@ -131,12 +131,12 @@ class Package extends Component {
     return (
       <div className="fs-undiscounted-price">
         Normally {this.context.currencySymbols[this.context.selectedCurrency]}
-        {selectedPricing.getMonthlyAmount(
+        {selectedPricing.getAmount(
           BillingCycle.MONTHLY,
           true,
           Package.locale
         )}{' '}
-        / mo
+        / year
       </div>
     );
   }
@@ -245,7 +245,7 @@ class Package extends Component {
         BillingCycleString.ANNUAL === this.context.selectedBillingCycle
           ? // The 'en-US' is intentionally hard-coded here because we are spliting the decimal by '.'.
             Helper.formatNumber(
-              selectedPricing.getMonthlyAmount(BillingCycle.ANNUAL),
+              selectedPricing.getAmount(BillingCycle.ANNUAL),
               'en-US'
             )
           : selectedPricing[`${this.context.selectedBillingCycle}_price`]
@@ -350,7 +350,7 @@ class Package extends Component {
               {!planPackage.is_free_plan &&
                 BillingCycleString.LIFETIME !==
                   this.context.selectedBillingCycle && (
-                  <sub className="fs-selected-pricing-amount-cycle">/ mo</sub>
+                  <sub className="fs-selected-pricing-amount-cycle">/ year</sub>
                 )}
             </span>
           </div>
@@ -384,7 +384,9 @@ class Package extends Component {
                       <span>
                         <strong>{feature.value}</strong>
                       </span>
-                      <span className="fs-feature-title">{feature.title}</span>
+                      <span className="fs-feature-title">
+                        <span>{feature.title}</span>
+                      </span>
                     </span>
                     {Helper.isNonEmptyString(feature.description) && (
                       <Tooltip>
@@ -482,36 +484,45 @@ class Package extends Component {
               {this.getCtaButtonLabel(planPackage, installPlanLicensesCount)}
             </button>
           </div>
-          <ul className="fs-plan-features">
-            {planPackage.nonhighlighted_features.map(feature => {
-              if (!Helper.isNonEmptyString(feature.title)) {
+          {!isSinglePlan && (
+            <ul className="fs-plan-features">
+              {planPackage.nonhighlighted_features.map(feature => {
+                if (!Helper.isNonEmptyString(feature.title)) {
+                  return (
+                    <li key={feature.id}>
+                      <Placeholder />
+                    </li>
+                  );
+                }
+
+                const isBold = feature.title.search(/\*/) !== -1;
+
+                const featureTitle =
+                  0 === feature.id.indexOf('all_plan_') || isBold ? (
+                    <strong>{feature.title.replace('*', '')}</strong>
+                  ) : (
+                    feature.title
+                  );
+
+                const isSubFeature = feature.title.search('--') !== -1;
+
                 return (
                   <li key={feature.id}>
-                    <Placeholder />
+                    {!isSubFeature && <Icon icon={['fas', 'check']} />}
+                    {isSubFeature && <span>&nbsp;&nbsp;</span>}
+                    <span className="fs-feature-title">
+                      <span>{featureTitle}</span>
+                    </span>
+                    {Helper.isNonEmptyString(feature.description) && (
+                      <Tooltip>
+                        <Fragment>{feature.description}</Fragment>
+                      </Tooltip>
+                    )}
                   </li>
                 );
-              }
-
-              const featureTitle =
-                0 === feature.id.indexOf('all_plan_') ? (
-                  <strong>{feature.title}</strong>
-                ) : (
-                  feature.title
-                );
-
-              return (
-                <li key={feature.id}>
-                  <Icon icon={['fas', 'check']} />
-                  <span className="fs-feature-title">{featureTitle}</span>
-                  {Helper.isNonEmptyString(feature.description) && (
-                    <Tooltip>
-                      <Fragment>{feature.description}</Fragment>
-                    </Tooltip>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+              })}
+            </ul>
+          )}
         </div>
       </li>
     );

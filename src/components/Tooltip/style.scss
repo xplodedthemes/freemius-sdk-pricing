@@ -3,7 +3,7 @@
   .fs-tooltip {
     cursor: help;
     position: relative;
-    color: #2da1d0 !important;
+    color: #3273dc !important;
 
     .fs-tooltip-message {
       position: absolute;
@@ -16,6 +16,7 @@
       padding: 8px;
       text-align: left;
       line-height: 18px;
+      font-size: 14px;
 
       &:before {
         content: '';

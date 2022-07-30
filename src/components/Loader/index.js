@@ -19,7 +19,10 @@ class Loader extends Component {
             {Helper.isNonEmptyString(this.props.title) && (
               <span>{this.props.title}</span>
             )}
-            <i></i>
+            <div className="ripple">
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </section>
       </div>

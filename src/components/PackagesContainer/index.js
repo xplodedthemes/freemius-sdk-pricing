@@ -10,6 +10,7 @@ import Placeholder from '../Placeholder';
 import { debounce } from '../../utils/debounce';
 
 import './style.scss';
+import Tooltip from '../Tooltip';
 
 class PackagesContainer extends Component {
   static contextType = FSPricingContext;
@@ -518,12 +519,19 @@ class PackagesContainer extends Component {
 
     let packageComponents = [],
       isFirstPlanPackage = true,
+      firstPlan = null,
       hasFeaturedPlan = false,
       mobileTabs = [],
       mobileDropdownOptions = [],
-      selectedPlanOrPricingID = this.context.selectedPlanID;
+      selectedPlanOrPricingID = this.context.selectedPlanID,
+      packageIndex = 0,
+      $packages = document.querySelector('.fs-packages');
 
     for (let visiblePlanPackage of visiblePlanPackages) {
+      if (isFirstPlanPackage) {
+        firstPlan = visiblePlanPackage;
+      }
+
       if (
         visiblePlanPackage.highlighted_features.length <
         maxHighlightedFeaturesCount
@@ -592,8 +600,27 @@ class PackagesContainer extends Component {
               ? ' fs-package-tab--selected'
               : '')
           }
+          data-index={packageIndex}
           data-plan-id={visiblePlanOrPricingID}
-          onClick={this.props.changePlanHandler}
+          onClick={event => {
+            this.props.changePlanHandler(event);
+
+            if (!$packages) {
+              $packages = document.querySelector('.fs-packages');
+            }
+            let packageIndex = parseInt(
+              event.target.parentNode.getAttribute('data-index')
+            );
+            let $section = $packages.querySelector(
+              '.fs-package:nth-child(' + (packageIndex + 1) + ')'
+            );
+            let sectionWidth = parseFloat(
+              window.getComputedStyle($section).width
+            );
+            let leftPos = -1 * packageIndex * sectionWidth - 1;
+
+            $packages.style.left = leftPos + 'px';
+          }}
         >
           <a href="#">
             {isSinglePlan
@@ -636,35 +663,84 @@ class PackagesContainer extends Component {
       if (isFirstPlanPackage) {
         isFirstPlanPackage = false;
       }
+
+      packageIndex++;
     }
 
     return (
       <Fragment>
-        <nav className="fs-prev-package">
-          <Icon icon={['fas', 'chevron-left']} />
-        </nav>
-        <section
-          className={
-            'fs-packages-nav' + (hasFeaturedPlan ? ' fs-has-featured-plan' : '')
-          }
-        >
-          {packageComponents.length > 3 && (
-            <select
-              className="fs-packages-menu"
-              onChange={this.props.changePlanHandler}
-              value={selectedPlanOrPricingID}
-            >
-              {mobileDropdownOptions}
-            </select>
-          )}
-          {packageComponents.length <= 3 && (
-            <ul className="fs-packages-tab">{mobileTabs}</ul>
-          )}
-          <ul className="fs-packages">{packageComponents}</ul>
+        <section className="fs-section--packages-wrap">
+          <nav className="fs-prev-package">
+            <Icon icon={['fas', 'chevron-left']} />
+          </nav>
+          <section
+            className={
+              'fs-packages-nav' +
+              (hasFeaturedPlan ? ' fs-has-featured-plan' : '')
+            }
+          >
+            {packageComponents.length > 3 && (
+              <select
+                className="fs-packages-menu"
+                onChange={this.props.changePlanHandler}
+                value={selectedPlanOrPricingID}
+              >
+                {mobileDropdownOptions}
+              </select>
+            )}
+            {packageComponents.length <= 3 && (
+              <ul className="fs-packages-tab">{mobileTabs}</ul>
+            )}
+            <ul className="fs-packages">{packageComponents}</ul>
+          </section>
+          <nav className="fs-next-package">
+            <Icon icon={['fas', 'chevron-right']} />
+          </nav>
         </section>
-        <nav className="fs-next-package">
-          <Icon icon={['fas', 'chevron-right']} />
-        </nav>
+        {isSinglePlan && (
+          <section className="fs-section fs-packages-nav fs-package-merged-features">
+            <h1>Features</h1>
+            <div className="fs-package-merged">
+              <ul className="fs-plan-features">
+                {firstPlan.nonhighlighted_features.map(feature => {
+                  if (!Helper.isNonEmptyString(feature.title)) {
+                    return (
+                      <li key={feature.id}>
+                        <Placeholder />
+                      </li>
+                    );
+                  }
+
+                  const isBold = feature.title.search(/\*/) !== -1;
+
+                  const featureTitle =
+                    0 === feature.id.indexOf('all_plan_') || isBold ? (
+                      <strong>{feature.title.replace('*', '')}</strong>
+                    ) : (
+                      feature.title
+                    );
+
+                  const isSubFeature = feature.title.search('--') !== -1;
+
+                  return (
+                    <li key={feature.id}>
+                      {!isSubFeature && <Icon icon={['fas', 'check']} />}
+                      {isSubFeature && <span>&nbsp;&nbsp;</span>}
+                      <span className="fs-feature-title">
+                        <span>{featureTitle}</span>
+                      </span>
+                      {Helper.isNonEmptyString(feature.description) && (
+                        <Tooltip>
+                          <Fragment>{feature.description}</Fragment>
+                        </Tooltip>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </section>
+        )}
       </Fragment>
     );
   }

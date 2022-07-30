@@ -842,15 +842,15 @@ class FreemiusPricingMain extends Component {
         <div id="fs_pricing_app">
           {trialMessage}
           <header className="fs-app-header">
+            <section className="fs-plugin-title-and-logo">
+              {this.getModuleIcon()}
+              {/*<h1>*/}
+              {/*	<strong>{pricingData.plugin.title}</strong>*/}
+              {/*</h1>*/}
+            </section>
             <section className="fs-page-title">
               <h1>Plans and Pricing</h1>
               <h3>Choose your plan and upgrade in minutes!</h3>
-            </section>
-            <section className="fs-plugin-title-and-logo">
-              {this.getModuleIcon()}
-              <h1>
-                <strong>{pricingData.plugin.title}</strong>
-              </h1>
             </section>
           </header>
           <main className="fs-app-main">
@@ -885,11 +885,11 @@ class FreemiusPricingMain extends Component {
                     />
                   </Section>
                 )}
-              {pricingData.currencies.length > 1 && (
-                <Section fs-section="currencies">
-                  <CurrencySelector handler={this.changeCurrency} />
-                </Section>
-              )}
+              {/*{pricingData.currencies.length > 1 && (*/}
+              {/*  <Section fs-section="currencies">*/}
+              {/*    <CurrencySelector handler={this.changeCurrency} />*/}
+              {/*  </Section>*/}
+              {/*)}*/}
               <Section fs-section="packages">
                 <PackagesContainer
                   changeLicensesHandler={this.changeLicenses}

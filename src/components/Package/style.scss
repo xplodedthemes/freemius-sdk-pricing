@@ -1,6 +1,7 @@
 #root,
 #fs_pricing_app {
-  .fs-package {
+  .fs-package,
+  .fs-package-merged {
     display: inline-block;
     vertical-align: top;
     background: #fff;
@@ -128,7 +129,7 @@
     }
 
     .fs-selected-pricing-license-quantity {
-      color: #47aed6;
+      color: #3273dc;
 
       .fs-tooltip {
         margin-left: 5px;
@@ -168,15 +169,21 @@
         }
 
         .fs-feature-title {
-          margin: 0 5px;
           color: #606060;
           max-width: 260px;
           overflow-wrap: break-word;
+          flex: 1;
+
+          span {
+            padding-left: 10px;
+            padding-right: 15px;
+            display: block;
+          }
         }
 
         .fs-icon,
         .fs-tooltip {
-          color: #2da1d0;
+          color: #3273dc;
         }
       }
     }
@@ -216,7 +223,7 @@
       }
 
       .fs-license-quantity-discount span {
-        background: #2da1d0;
+        background: #3273dc;
         color: #fff;
         display: inline;
         padding: 4px 8px;
@@ -237,12 +244,12 @@
         font-size: small;
 
         &.fs-license-quantity-selected {
-          background: #2da1d0;
+          background: #3273dc;
           color: #fff;
 
           .fs-license-quantity-discount > span {
             background: #fff;
-            color: #2da1d0;
+            color: #3273dc;
           }
         }
 
@@ -287,7 +294,7 @@
     }
 
     &.fs-featured-plan .fs-plan-title {
-      background: #1fbc99;
+      background: #3273dc;
     }
 
     .fs-most-popular {
@@ -311,7 +318,7 @@
       }
 
       .fs-selected-pricing-license-quantity {
-        color: #1fbc99;
+        color: #3273dc;
       }
 
       .fs-license-quantity-selected {
@@ -321,7 +328,7 @@
           top: 0;
           bottom: 0;
           left: -1px;
-          border-left: 2px solid #1fbc99;
+          border-left: 2px solid #3273dc;
         }
 
         .fs-license-quantity-price:after {
@@ -330,21 +337,21 @@
           top: 0;
           bottom: 0;
           right: -1px;
-          border-right: 2px solid #1fbc99;
+          border-right: 2px solid #3273dc;
         }
       }
 
       .fs-license-quantities .fs-license-quantity-selected {
-        background: #1fbc99;
+        background: #3273dc;
 
         .fs-license-quantity-discount > span {
-          color: #1fbc99;
+          color: #3273dc;
         }
       }
 
       .fs-upgrade-button,
       .fs-license-quantities .fs-license-quantity-discount span {
-        background: #1fbc99;
+        background: #3273dc;
         color: #fff;
       }
 
@@ -353,7 +360,7 @@
       }
 
       .fs-tooltip .fs-icon {
-        color: #1fbc99 !important;
+        color: #3273dc !important;
       }
     }
 

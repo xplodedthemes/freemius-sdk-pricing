@@ -54,7 +54,7 @@ module.exports = () => {
       ],
     },
     output: {
-      path: path.join(__dirname, './dist'),
+      path: path.join(__dirname, './../../dist/pricing'),
       filename: 'freemius-pricing.js',
       library: ['Freemius'],
       libraryTarget: 'umd',
