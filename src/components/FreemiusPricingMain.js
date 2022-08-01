@@ -182,9 +182,11 @@ class FreemiusPricingMain extends Component {
     let defaultIconUrl =
       'theme' === this.state.plugin.type ? defaultThemeIcon : defaultPluginIcon;
 
+    let showPluginName = this.state.plugin.slug.search(/woo\-/) !== -1;
+
     return (
       <object
-        data={this.state.plugin.icon}
+        data={!showPluginName ? this.state.plugin.icon : defaultIconUrl}
         className="fs-plugin-logo"
         type="image/png"
       >
@@ -837,16 +839,25 @@ class FreemiusPricingMain extends Component {
       trialMessage = <div className="fs-trial-message">{trialMessage}</div>;
     }
 
+    let showPluginName = pricingData.plugin.slug.search(/woo\-/) !== -1;
+
     return (
       <FSPricingContext.Provider value={this.state}>
         <div id="fs_pricing_app">
           {trialMessage}
           <header className="fs-app-header">
-            <section className="fs-plugin-title-and-logo">
+            <section
+              className={
+                'fs-plugin-title-and-logo' +
+                (showPluginName ? ' default-logo' : '')
+              }
+            >
               {this.getModuleIcon()}
-              {/*<h1>*/}
-              {/*	<strong>{pricingData.plugin.title}</strong>*/}
-              {/*</h1>*/}
+              {showPluginName && (
+                <h1>
+                  <strong>{pricingData.plugin.title}</strong>
+                </h1>
+              )}
             </section>
             <section className="fs-page-title">
               <h1>Plans and Pricing</h1>
