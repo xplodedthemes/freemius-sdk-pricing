@@ -138,11 +138,30 @@
 
         li {
           font-size: 16px;
-          margin-bottom: 15px;
+          margin-bottom: 10px;
+
+          &:not(:last-of-type) {
+            border-bottom: 1px dotted #eaeaea;
+            padding-bottom: 10px;
+          }
+
+          &.sub {
+            margin-bottom: 10px;
+          }
+
+          &.featured {
+            margin-top: 30px;
+          }
 
           > span {
-            font-size: 18px;
+            font-size: 17px;
             max-width: inherit;
+          }
+          .fs-feature-pro {
+            position: relative;
+            margin-right: -3px;
+            margin-left: 8px;
+            top: 2px;
           }
         }
       }

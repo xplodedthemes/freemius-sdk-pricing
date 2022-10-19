@@ -3,7 +3,7 @@ import Icon from '../Icon';
 
 import './style.scss';
 
-export default function Tooltip({ children }) {
+export default function Tooltip({ IconComponent, children }) {
   // Enum: 'none' | top | right | top-right
   const [currentTooltipPosition, setCurrentTooltipPosition] = useState('none');
   const tooltipMessageRef = useRef(null);
@@ -120,7 +120,8 @@ export default function Tooltip({ children }) {
       onBlur={hideTooltip}
       tabIndex={0}
     >
-      <Icon icon="question-circle" />
+      {!IconComponent && <Icon icon="question-circle" />}
+      {IconComponent && <IconComponent />}
       <span
         className={`fs-tooltip-message fs-tooltip-message--position-${currentTooltipPosition}`}
       >

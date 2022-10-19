@@ -318,7 +318,8 @@ class PackagesContainer extends Component {
         this.context.licenseQuantities[this.context.selectedCurrency],
       licenseQuantitiesCount = Object.keys(licenseQuantities).length,
       currentLicenseQuantities = {},
-      isSinglePlan = false;
+      isSinglePlan = false,
+      firstFreePlan = null;
 
     if (this.context.paidPlansCount > 1 || 1 === licenseQuantitiesCount) {
       // If there are more than one paid plans, create a package component for each plan.
@@ -330,6 +331,9 @@ class PackagesContainer extends Component {
       let paidPlan = null;
 
       for (paidPlan of this.context.plans) {
+        if (!firstFreePlan && PlanManager.getInstance().isFreePlan(paidPlan)) {
+          firstFreePlan = paidPlan;
+        }
         if (PlanManager.getInstance().isHiddenOrFreePlan(paidPlan)) {
           continue;
         }
@@ -712,6 +716,11 @@ class PackagesContainer extends Component {
                   }
 
                   const isBold = feature.title.search(/\*/) !== -1;
+                  const isPremiumOnly =
+                    firstFreePlan &&
+                    !firstFreePlan.features.find(
+                      freeFeature => freeFeature.id === feature.id
+                    );
 
                   const featureTitle =
                     0 === feature.id.indexOf('all_plan_') || isBold ? (
@@ -722,8 +731,25 @@ class PackagesContainer extends Component {
 
                   const isSubFeature = feature.title.search('--') !== -1;
 
+                  const PremiumBadge = () => {
+                    return (
+                      <span className="fs-feature-pro">
+                        <img
+                          width="24"
+                          src="data:image/png;base64,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"
+                        />
+                      </span>
+                    );
+                  };
+
                   return (
-                    <li key={feature.id}>
+                    <li
+                      key={feature.id}
+                      className={(
+                        (isBold ? 'featured ' : '') +
+                        (isSubFeature ? ' sub' : '')
+                      ).trim()}
+                    >
                       {!isSubFeature && <Icon icon={['fas', 'check']} />}
                       {isSubFeature && <span>&nbsp;&nbsp;</span>}
                       <span className="fs-feature-title">
@@ -732,6 +758,14 @@ class PackagesContainer extends Component {
                       {Helper.isNonEmptyString(feature.description) && (
                         <Tooltip>
                           <Fragment>{feature.description}</Fragment>
+                        </Tooltip>
+                      )}
+                      {isPremiumOnly && (
+                        <Tooltip IconComponent={PremiumBadge}>
+                          <Fragment>
+                            This is a premium feature, unavailable within the
+                            free version
+                          </Fragment>
                         </Tooltip>
                       )}
                     </li>
