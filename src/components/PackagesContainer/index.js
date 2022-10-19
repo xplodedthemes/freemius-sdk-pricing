@@ -722,14 +722,16 @@ class PackagesContainer extends Component {
                       freeFeature => freeFeature.id === feature.id
                     );
 
+                  const isSubFeature = feature.title.search('--') !== -1;
+
                   const featureTitle =
-                    0 === feature.id.indexOf('all_plan_') || isBold ? (
+                    0 === feature.id.indexOf('all_plan_') ||
+                    isBold ||
+                    (isPremiumOnly && !isSubFeature) ? (
                       <strong>{feature.title.replace('*', '')}</strong>
                     ) : (
                       feature.title
                     );
-
-                  const isSubFeature = feature.title.search('--') !== -1;
 
                   const PremiumBadge = () => {
                     return (
