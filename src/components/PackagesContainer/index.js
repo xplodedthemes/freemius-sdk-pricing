@@ -671,6 +671,8 @@ class PackagesContainer extends Component {
       packageIndex++;
     }
 
+    let proFeatures = 0;
+
     return (
       <Fragment>
         <section className="fs-section--packages-wrap">
@@ -744,10 +746,16 @@ class PackagesContainer extends Component {
                     );
                   };
 
+                  if (isPremiumOnly) {
+                    proFeatures++;
+                  }
+
                   return (
                     <li
                       key={feature.id}
                       className={(
+                        (proFeatures === 1 ? 'first-pro-feature ' : '') +
+                        (isPremiumOnly ? 'pro ' : '') +
                         (isBold ? 'featured ' : '') +
                         (isSubFeature ? ' sub' : '')
                       ).trim()}
