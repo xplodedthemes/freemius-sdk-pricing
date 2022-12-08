@@ -400,6 +400,14 @@
               border-bottom: 0 none;
               border-radius: 20px 20px 0 0;
 
+              .network-admin & {
+                height: auto !important;
+                + section {
+                  height: auto !important;
+                  min-height: 200px !important;
+                }
+              }
+
               .fs-testimonial-logo {
                 border: 1px solid #e4e4e4;
                 border-radius: 44px;
