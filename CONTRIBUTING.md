@@ -24,7 +24,7 @@ Please make sure you're on current Node LTS (v16 at the time of writing).
 
 ```sh
 node --version # check output > 16
-npm install
+bun install
 ```
 
 #### 3: Setup VSCode
@@ -88,7 +88,7 @@ If you're developing with a theme, kindly use the following code.
 Now please run the following command.
 
 ```sh
-npm run start
+bun run start
 ```
 
 This will run webpack in watch mode and will keep on emitting development builds
@@ -102,7 +102,7 @@ You should see the changes you've made.
 Please run the following command.
 
 ```sh
-npm run build
+bun run build
 ```
 
 This will run webpack in production mode and will create optimized bundle.

@@ -53,8 +53,8 @@ impossible since it's running remotely from our end.
    installed.
 3. Switch to the `develop` branch if you want the most up-to-date version. Keep
    using the `master` branch if you want the stable version.
-4. Run `npm install`.
-5. Run `npm run build` (it will create a `dist` directory).
+4. Run `bun install`.
+5. Run `bun run build` (it will create a `dist` directory).
 6. Replace the WordPress SDK version integrated with your plugin/theme with
    at-least the
    [2.4.3](https://github.com/Freemius/wordpress-sdk/releases/tag/2.4.3)
@@ -77,9 +77,9 @@ our [Contributors Guide](CONTRIBUTING.md).
 
 1. Fork the `develop` branch of the
    [pricing-page repo](https://github.com/Freemius/pricing-page).
-2. Run `npm install` to download all the necessary dependencies.
+2. Run `bun install` to download all the necessary dependencies.
 3. Edit the app as you wish.
-4. Once ready, run `npm run build` (it will create a `dist` directory).
+4. Once ready, run `bun run build` (it will create a `dist` directory).
 5. Copy the `dist` folder into your plugin/theme's main folder and rename it to
    `freemius-pricing`.
 6. Kindly follow the instruction below for your plugin or theme.
