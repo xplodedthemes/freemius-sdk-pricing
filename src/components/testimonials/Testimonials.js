@@ -337,10 +337,9 @@ class Testimonials extends Component {
           </header>
           <section>
             <Icon icon={['fas', 'quote-left']} className="fs-icon-quote" />
-            <blockquote
-              className="fs-testimonial-message"
-              dangerouslySetInnerHTML={{ __html: review.text }}
-            ></blockquote>
+            <blockquote className="fs-testimonial-message">
+              {review.text}
+            </blockquote>
             <section className="fs-testimonial-author">
               <div className="fs-testimonial-author-name">{review.name}</div>
               <div>
@@ -382,17 +381,18 @@ class Testimonials extends Component {
             </h2>
           </header>
         )}
-        {pricingData.active_installs <= 1000 && pricingData.downloads > 1000 && (
-          <header className="fs-section-header">
-            <h2>
-              Downloaded More than{' '}
-              {Helper.formatNumber(
-                Math.ceil(pricingData.downloads / 1000) * 1000
-              )}{' '}
-              Times!
-            </h2>
-          </header>
-        )}
+        {pricingData.active_installs <= 1000 &&
+          pricingData.downloads > 1000 && (
+            <header className="fs-section-header">
+              <h2>
+                Downloaded More than{' '}
+                {Helper.formatNumber(
+                  Math.ceil(pricingData.downloads / 1000) * 1000
+                )}{' '}
+                Times!
+              </h2>
+            </header>
+          )}
         <section className="fs-testimonials-nav">
           <nav className="fs-nav fs-nav-prev">
             <Icon icon={['fas', 'arrow-left']} />

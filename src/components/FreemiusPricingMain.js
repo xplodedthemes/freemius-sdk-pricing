@@ -34,6 +34,7 @@ import { RequestManager } from '../services/RequestManager';
 import { PageManager } from '../services/PageManager';
 import { Helper } from '../Helper';
 import { TrackingManager } from '../services/TrackingManager';
+import { getTrustedRequestHandlerUrl } from '../services/RequestSecurity';
 import { FS } from '../postmessage';
 import Loader from './Loader';
 import TrialConfirmationModal from './TrialConfirmationModal';
@@ -305,8 +306,16 @@ class FreemiusPricingMain extends Component {
     });
 
     let endpointUrl = this.isEmbeddedDashboardMode()
-      ? FSConfig.request_handler_url
+      ? getTrustedRequestHandlerUrl(FSConfig.request_handler_url)
       : FSConfig.fs_wp_endpoint_url + '/action/service/subscribe/trial/';
+
+    if (!endpointUrl) {
+      this.setState({
+        isActivatingTrial: false,
+        upgradingToPlanID: null,
+      });
+      return;
+    }
 
     RequestManager.getInstance()
       .request(endpointUrl, {
@@ -480,8 +489,16 @@ class FreemiusPricingMain extends Component {
       is_sandbox: this.isSandboxPaymentsMode(),
     };
 
+    const requestHandlerUrl = getTrustedRequestHandlerUrl(
+      FSConfig.request_handler_url
+    );
+
+    if (!requestHandlerUrl) {
+      return;
+    }
+
     RequestManager.getInstance()
-      .request(FSConfig.request_handler_url, params)
+      .request(requestHandlerUrl, params)
       .then(pricingData => {
         if (pricingData.data) {
           pricingData = pricingData.data;
