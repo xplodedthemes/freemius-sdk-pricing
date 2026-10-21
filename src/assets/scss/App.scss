@@ -185,8 +185,8 @@
         margin: 1.5em auto 0;
 
         &.fs-section--billing-cycles {
-          margin-top: 0;
-          margin-bottom: 15px;
+          margin-top: 10px;
+          margin-bottom: 40px;
         }
       }
 
@@ -231,15 +231,33 @@
             padding: 10px 20px;
             cursor: pointer;
             background: #dedede;
+            vertical-align: middle;
 
             &.fs-selected-billing-cycle {
               background: #3273dc;
               color: #fff;
+
+              .fs-billing-cycle-discount {
+                background: rgba(255, 255, 255, 0.2);
+                color: #fff;
+              }
             }
 
             &:not(:last-child) {
               border-right: 1px solid #ccc;
             }
+          }
+
+          .fs-billing-cycle-discount {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #e3f4e8;
+            color: #1a7f37;
+            font-size: 11px;
+            line-height: 1.4;
+            vertical-align: 1px;
           }
         }
       }
@@ -731,18 +749,38 @@
       }
     }
 
+    @media only screen and (max-width: 600px) {
+      .fs-section--plans-and-pricing .fs-section--billing-cycles {
+        width: 100%;
+        padding: 0;
+
+        .fs-billing-cycles {
+          display: flex;
+
+          li {
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 6px;
+            font-size: 13px;
+          }
+
+          .fs-billing-cycle-discount {
+            display: table;
+            margin: 3px auto 0;
+          }
+        }
+      }
+    }
+
     @media only screen and (max-width: 455px) {
       .fs-section--testimonials
         .fs-testimonials-nav
         .fs-testimonials
         .fs-testimonial {
         width: auto;
-      }
-
-      .fs-section--billing-cycles .fs-billing-cycles li.fs-period--annual {
-        span {
-          display: none;
-        }
       }
     }
 

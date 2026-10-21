@@ -48,6 +48,7 @@ class FreemiusPricingMain extends Component {
     this.state = {
       active_installs: 0,
       annualDiscount: 0,
+      lifetimeDiscount: 0,
       billingCycles: [],
       currencies: [],
       downloads: 0,
@@ -729,6 +730,12 @@ class FreemiusPricingMain extends Component {
                   planSingleSitePricingCollection
                 )
               : 0,
+          lifetimeDiscount:
+            hasAnnualCycle && hasLifetimePricing
+              ? planManager.largestLifetimeDiscount(
+                  planSingleSitePricingCollection
+                )
+              : 0,
           billingCycles: Object.keys(billingCycles),
           currencies: Object.keys(currencies),
           currencySymbols: { usd: '$', eur: '€', gbp: '£' },
@@ -883,13 +890,6 @@ class FreemiusPricingMain extends Component {
           </header>
           <main className="fs-app-main">
             <Section fs-section="plans-and-pricing">
-              {pricingData.annualDiscount > 0 && (
-                <Section fs-section="annual-discount">
-                  <div className="fs-annual-discount">
-                    Save up to {pricingData.annualDiscount}% on Yearly Pricing!
-                  </div>
-                </Section>
-              )}
               {this.state.isTrial && (
                 <Section fs-section="trial-header">
                   <h2>

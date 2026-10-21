@@ -187,7 +187,7 @@ function getInstance(plans) {
       return amount;
     },
     annualDiscountPercentage(pricing) {
-      return Math.round(
+      return Math.floor(
         (this.annualSavings(pricing) /
           (pricing.getMonthlyAmount(BillingCycle.MONTHLY) *
             12 *
@@ -223,6 +223,37 @@ function getInstance(plans) {
       }
 
       return Math.max(annualDiscount, 0);
+    },
+    /**
+     * Lifetime savings compared to paying the annual price for 5 years, matching the XplodedThemes websites.
+     */
+    lifetimeDiscountPercentage(pricing) {
+      if (!pricing.hasAnnualPrice() || !pricing.hasLifetimePrice()) {
+        return 0;
+      }
+
+      return Math.max(
+        Math.floor(
+          (1 - pricing.lifetime_price / (pricing.annual_price * 5)) * 100
+        ),
+        0
+      );
+    },
+    largestLifetimeDiscount(planSingleSitePricingCollection) {
+      let bestDiscount = 0;
+
+      for (let pricing of planSingleSitePricingCollection) {
+        if (!pricing.isSingleSite()) {
+          continue;
+        }
+
+        bestDiscount = Math.max(
+          bestDiscount,
+          this.lifetimeDiscountPercentage(pricing)
+        );
+      }
+
+      return bestDiscount;
     },
     largestAnnualDiscount(planSingleSitePricingCollection) {
       let bestDiscount = 0;

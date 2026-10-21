@@ -14,14 +14,26 @@ class PeriodSelector extends Component {
   }
 
   /**
-   * @return {string} Returns a string that is appended to the annual billing cycle label, e.g.: `(up to 19% off)`.
+   * @param {string} billingCycle
+   *
+   * @return {number} The savings percentage advertised for the billing cycle: annual compared to monthly, lifetime compared to 5 years of annual.
    */
-  annualDiscountLabel() {
-    if (!(this.context.annualDiscount > 0)) {
-      return '';
+  discount(billingCycle) {
+    if (BillingCycleString.ANNUAL === billingCycle) {
+      return this.context.annualDiscount;
     }
 
-    return `(up to ${this.context.annualDiscount}% off)`;
+    if (BillingCycleString.LIFETIME === billingCycle) {
+      return this.context.lifetimeDiscount;
+    }
+
+    return 0;
+  }
+
+  discountTitle(billingCycle) {
+    return BillingCycleString.ANNUAL === billingCycle
+      ? 'Compared to paying monthly for a year'
+      : 'Compared to paying annually for 5 years';
   }
 
   render() {
@@ -29,9 +41,10 @@ class PeriodSelector extends Component {
       <ul className="fs-billing-cycles">
         {this.context.billingCycles.map(billingCycle => {
           let label =
-            BillingCycleString.ANNUAL === billingCycle
-              ? 'Annually'
-              : Helper.ucfirst(billingCycle);
+              BillingCycleString.ANNUAL === billingCycle
+                ? 'Annually'
+                : Helper.ucfirst(billingCycle),
+            discount = this.discount(billingCycle);
 
           return (
             <li
@@ -45,9 +58,14 @@ class PeriodSelector extends Component {
               data-billing-cycle={billingCycle}
               onClick={this.props.handler}
             >
-              {label}{' '}
-              {BillingCycleString.ANNUAL === billingCycle && (
-                <span>{this.annualDiscountLabel()}</span>
+              {label}
+              {discount > 0 && (
+                <span
+                  className="fs-billing-cycle-discount"
+                  title={this.discountTitle(billingCycle)}
+                >
+                  Save {discount}%
+                </span>
               )}
             </li>
           );

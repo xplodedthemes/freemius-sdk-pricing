@@ -128,12 +128,15 @@ class Package extends Component {
       return <Placeholder className={'fs-undiscounted-price'} />;
     }
 
+    if (!selectedPricing.hasMonthlyPrice()) {
+      return <Placeholder className={'fs-undiscounted-price'} />;
+    }
+
     return (
       <div className="fs-undiscounted-price">
         Normally {this.context.currencySymbols[this.context.selectedCurrency]}
-        {selectedPricing.getAmount(
-          BillingCycle.MONTHLY,
-          true,
+        {Helper.formatNumber(
+          selectedPricing.getAmount(BillingCycle.MONTHLY) * 12,
           Package.locale
         )}{' '}
         / year
@@ -162,6 +165,18 @@ class Package extends Component {
         )}
       </div>
     );
+  }
+
+  /**
+   * @return {string|null} The amount suffix for the selected billing cycle, e.g. `/ month` or `/ year`; lifetime has none.
+   */
+  billingCyclePeriodLabel() {
+    if (BillingCycleString.MONTHLY === this.context.selectedBillingCycle)
+      return '/ month';
+    else if (BillingCycleString.ANNUAL === this.context.selectedBillingCycle)
+      return '/ year';
+
+    return null;
   }
 
   /**
@@ -348,9 +363,10 @@ class Package extends Component {
                   : ''}
               </strong>
               {!planPackage.is_free_plan &&
-                BillingCycleString.LIFETIME !==
-                  this.context.selectedBillingCycle && (
-                  <sub className="fs-selected-pricing-amount-cycle">/ year</sub>
+                null !== this.billingCyclePeriodLabel() && (
+                  <sub className="fs-selected-pricing-amount-cycle">
+                    {this.billingCyclePeriodLabel()}
+                  </sub>
                 )}
             </span>
           </div>
