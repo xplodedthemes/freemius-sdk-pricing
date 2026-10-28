@@ -239,7 +239,7 @@
             vertical-align: middle;
 
             &.fs-selected-billing-cycle {
-              background: #3273dc;
+              background: var(--fsp-primary, #3273dc);
               color: #fff;
 
               .fs-billing-cycle-discount {
@@ -289,7 +289,7 @@
         padding: 20px 0;
 
         .fs-money-back-guarantee-title {
-          color: #3273dc;
+          color: var(--fsp-primary, #3273dc);
           font-weight: bold;
           margin-bottom: 15px;
         }
@@ -456,7 +456,7 @@
             }
 
             .fs-icon-quote {
-              color: #3273dc;
+              color: var(--fsp-primary, #3273dc);
             }
 
             .fs-testimonial-message {
@@ -574,7 +574,7 @@
   }
 
   .fs-button {
-    background-color: #3273dc;
+    background-color: var(--fsp-primary, #3273dc);
     padding: 12px;
     display: inline-block;
     text-transform: uppercase;
@@ -622,7 +622,7 @@
       box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.3);
 
       .fs-modal-header {
-        background: #3273dc;
+        background: var(--fsp-primary, #3273dc);
         padding: 15px;
 
         h3,

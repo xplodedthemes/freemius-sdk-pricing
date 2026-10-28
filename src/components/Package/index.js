@@ -328,6 +328,11 @@ class Package extends Component {
       selectedAmountFraction = Helper.formatFraction(amountParts[1]);
     }
 
+    const ctaLabel = this.getCtaButtonLabel(
+      planPackage,
+      installPlanLicensesCount
+    );
+
     return (
       <li key={planPackage.id} className={packageClassName}>
         <div className="fs-most-popular">
@@ -398,10 +403,15 @@ class Package extends Component {
                   <li key={feature.id}>
                     <span className="fs-feature-title">
                       <span>
-                        <strong>{feature.value}</strong>
+                        <strong>
+                          {String(feature.value).replace(
+                            /\b\d{4,}\b/g,
+                            number => Number(number).toLocaleString('en-US')
+                          )}
+                        </strong>
                       </span>
                       <span className="fs-feature-title">
-                        <span>{feature.title}</span>
+                        <span>{feature.title.replace(/^\s*--\s*/, '')}</span>
                       </span>
                     </span>
                     {Helper.isNonEmptyString(feature.description) && (
@@ -414,7 +424,7 @@ class Package extends Component {
               })}
             </ul>
           </div>
-          {!isSinglePlan && (
+          {!isSinglePlan && (pricingLicenses || []).length > 1 && (
             <table className="fs-license-quantities">
               <tbody>
                 {Object.keys(currentLicenseQuantities).map(licenseQuantity => {
@@ -491,16 +501,55 @@ class Package extends Component {
             </table>
           )}
           <div className="fs-upgrade-button-container">
-            <button
-              className="fs-button fs-button--size-large fs-upgrade-button"
-              onClick={() => {
-                this.props.upgradeHandler(planPackage, selectedPricing);
-              }}
-            >
-              {this.getCtaButtonLabel(planPackage, installPlanLicensesCount)}
-            </button>
+            {!isSinglePlan &&
+            planPackage.is_free_plan &&
+            'Your Plan' !== ctaLabel ? (
+              // Paying customers are not offered the free plan as a "downgrade" next to the paid plans.
+              <span className="fs-plan-free-note">Free forever</span>
+            ) : (
+              <button
+                className={
+                  'fs-button fs-button--size-large fs-upgrade-button' +
+                  ('Your Plan' === ctaLabel
+                    ? ' fs-upgrade-button--current'
+                    : '')
+                }
+                disabled={'Your Plan' === ctaLabel}
+                onClick={() => {
+                  this.props.upgradeHandler(planPackage, selectedPricing);
+                }}
+              >
+                {ctaLabel}
+              </button>
+            )}
           </div>
-          {!isSinglePlan && (
+          {!isSinglePlan && planPackage.addedFeatures && (
+            <div className="fs-plan-added">
+              <p className="fs-plan-added-title">
+                {planPackage.previousPlanTitle
+                  ? `Everything in ${planPackage.previousPlanTitle}, plus:`
+                  : 'Includes:'}
+              </p>
+              <ul className="fs-plan-added-list">
+                {planPackage.addedFeatures.map(feature => (
+                  <li key={feature.id}>
+                    <Icon icon={['fas', 'check']} />
+                    <span>
+                      {feature.title
+                        .replace(/^\s*--\s*/, '')
+                        .replace(/\*/g, '')}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              {planPackage.moreFeaturesCount > 0 && (
+                <a className="fs-plan-added-more" href="#fsp-compare">
+                  {`+ ${planPackage.moreFeaturesCount} more in the comparison`}
+                </a>
+              )}
+            </div>
+          )}
+          {!isSinglePlan && !planPackage.addedFeatures && (
             <ul className="fs-plan-features">
               {planPackage.nonhighlighted_features.map(feature => {
                 if (!Helper.isNonEmptyString(feature.title)) {

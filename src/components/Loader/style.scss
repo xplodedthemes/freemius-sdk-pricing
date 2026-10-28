@@ -23,7 +23,7 @@
       background: #fff;
 
       .fs-modal-header {
-        background: #3273dc;
+        background: var(--fsp-primary, #3273dc);
         padding: 15px;
 
         h3,
@@ -64,7 +64,7 @@
         height: 80px;
         div {
           position: absolute;
-          border: 4px solid #3273dc;
+          border: 4px solid var(--fsp-primary, #3273dc);
           opacity: 1;
           border-radius: 50%;
           animation: ripple-loader 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;

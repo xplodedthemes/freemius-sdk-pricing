@@ -129,7 +129,7 @@
     }
 
     .fs-selected-pricing-license-quantity {
-      color: #3273dc;
+      color: var(--fsp-primary, #3273dc);
 
       .fs-tooltip {
         margin-left: 5px;
@@ -184,7 +184,7 @@
 
         .fs-icon,
         .fs-tooltip {
-          color: #3273dc;
+          color: var(--fsp-primary, #3273dc);
         }
       }
     }
@@ -224,7 +224,7 @@
       }
 
       .fs-license-quantity-discount span {
-        background: #3273dc;
+        background: var(--fsp-primary, #3273dc);
         color: #fff;
         display: inline;
         padding: 4px 8px;
@@ -245,16 +245,18 @@
         font-size: small;
 
         &.fs-license-quantity-selected {
-          background: #3273dc;
+          background: var(--fsp-primary, #3273dc);
           color: #fff;
 
           .fs-license-quantity-discount > span {
             background: #fff;
-            color: #3273dc;
+            color: var(--fsp-primary, #3273dc);
           }
         }
 
-        > td:not(.fs-license-quantity-discount):not(.fs-license-quantity-price) {
+        > td:not(.fs-license-quantity-discount):not(
+            .fs-license-quantity-price
+          ) {
           text-align: left;
         }
       }
@@ -295,7 +297,7 @@
     }
 
     &.fs-featured-plan .fs-plan-title {
-      background: #3273dc;
+      background: var(--fsp-primary, #3273dc);
     }
 
     .fs-most-popular {
@@ -309,7 +311,7 @@
         margin-top: -2.8em;
         border-radius: 20px 20px 0 0;
         color: #fff;
-        background: #158369;
+        background: var(--fsp-featured, #158369);
         text-transform: uppercase;
         font-size: 14px;
       }
@@ -319,7 +321,7 @@
       }
 
       .fs-selected-pricing-license-quantity {
-        color: #3273dc;
+        color: var(--fsp-primary, #3273dc);
       }
 
       .fs-license-quantity-selected {
@@ -329,7 +331,7 @@
           top: 0;
           bottom: 0;
           left: -1px;
-          border-left: 2px solid #3273dc;
+          border-left: 2px solid var(--fsp-primary, #3273dc);
         }
 
         .fs-license-quantity-price:after {
@@ -338,21 +340,21 @@
           top: 0;
           bottom: 0;
           right: -1px;
-          border-right: 2px solid #3273dc;
+          border-right: 2px solid var(--fsp-primary, #3273dc);
         }
       }
 
       .fs-license-quantities .fs-license-quantity-selected {
-        background: #3273dc;
+        background: var(--fsp-primary, #3273dc);
 
         .fs-license-quantity-discount > span {
-          color: #3273dc;
+          color: var(--fsp-primary, #3273dc);
         }
       }
 
       .fs-upgrade-button,
       .fs-license-quantities .fs-license-quantity-discount span {
-        background: #3273dc;
+        background: var(--fsp-primary, #3273dc);
         color: #fff;
       }
 
@@ -361,7 +363,7 @@
       }
 
       .fs-tooltip .fs-icon {
-        color: #3273dc !important;
+        color: var(--fsp-primary, #3273dc) !important;
       }
     }
 

@@ -1,0 +1,266 @@
+// The feature comparison under the plan cards. Colors come from the --fsp-* variables (the plugin's brand),
+// with the pricing page's own defaults.
+#root,
+#fs_pricing_app {
+  .fsp-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .fsp-compare {
+    max-width: 1100px;
+    margin: 56px auto 40px;
+    padding: 0 16px;
+    text-align: left;
+  }
+
+  .fsp-compare-title {
+    margin: 0;
+    color: var(--fsp-ink, #23282d);
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .fsp-compare-lead {
+    margin: 8px auto 24px;
+    color: var(--fsp-muted, #606060);
+    font-size: 14px;
+    text-align: center;
+
+    svg {
+      color: var(--fsp-primary, #3273dc);
+    }
+  }
+
+  .fsp-compare-picker {
+    display: none;
+  }
+
+  .fsp-compare-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--fsp-line, #e4e4e4);
+    border-radius: 12px;
+    background: #fff;
+    font-size: 14px;
+
+    th,
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--fsp-line-soft, #f0f0f0);
+      vertical-align: middle;
+    }
+
+    thead th {
+      position: sticky;
+      top: var(--wp-admin--admin-bar--height, 32px);
+      z-index: 2;
+      padding: 14px;
+      border-bottom: 1px solid var(--fsp-line, #e4e4e4);
+      background: #fff;
+      color: var(--fsp-ink, #23282d);
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+
+      &:first-child {
+        border-top-left-radius: 12px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 12px;
+      }
+
+      &.is-featured {
+        color: var(--fsp-primary, #3273dc);
+      }
+    }
+
+    tbody tr:last-child {
+      th,
+      td {
+        border-bottom: 0;
+      }
+    }
+
+    tbody th {
+      color: var(--fsp-ink, #23282d);
+      font-weight: 400;
+      text-align: left;
+    }
+
+    td {
+      width: 14%;
+      text-align: center;
+    }
+
+    td.is-featured,
+    thead th.is-featured {
+      background: var(--fsp-primary-soft, #f2f7ff);
+    }
+
+    tr.is-group th {
+      font-weight: 600;
+    }
+
+    tr.is-sub th {
+      padding-left: 34px;
+      color: var(--fsp-muted, #606060);
+    }
+  }
+
+  .fsp-compare-feature {
+    width: auto;
+  }
+
+  .fsp-compare-yes {
+    color: var(--fsp-primary, #3273dc);
+  }
+
+  .fsp-compare-no {
+    color: #c3c4c7;
+  }
+
+  .fsp-compare-value {
+    color: var(--fsp-ink, #23282d);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  // Feature explanations: in the page, shown on hover, focus or tap.
+  .fsp-compare-name {
+    position: relative;
+  }
+
+  .fsp-compare-last {
+    white-space: nowrap;
+  }
+
+  .fsp-compare-tip {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    margin: -4px 0 -4px 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: #a7aaad;
+    vertical-align: middle;
+    cursor: help;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--fsp-primary, #3273dc);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--fsp-primary, #3273dc);
+      outline-offset: 1px;
+    }
+  }
+
+  .fsp-compare-tip-text {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 3;
+    width: max-content;
+    max-width: min(300px, 80vw);
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #1d2327;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.45;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-2px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+    visibility: hidden;
+  }
+
+  .fsp-compare-name:hover .fsp-compare-tip-text,
+  .fsp-compare-last:has(.fsp-compare-tip:focus-visible) + .fsp-compare-tip-text,
+  .fsp-compare-name.is-open .fsp-compare-tip-text {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fsp-compare-tip-text {
+      transition: none;
+    }
+  }
+
+  // Phones: the features beside one plan, picked above the table.
+  @media only screen and (max-width: 782px) {
+    .fsp-compare {
+      margin-top: 40px;
+      padding: 0;
+    }
+
+    .fsp-compare-title {
+      font-size: 22px;
+    }
+
+    .fsp-compare-picker {
+      position: sticky;
+      top: var(--wp-admin--admin-bar--height, 46px);
+      z-index: 3;
+      display: flex;
+      gap: 6px;
+      margin: 0 0 12px;
+      padding: 8px 0;
+      overflow-x: auto;
+      background: #f0f0f1;
+      scrollbar-width: none;
+    }
+
+    .fsp-compare-pick {
+      flex: none;
+      padding: 6px 14px;
+      border: 1px solid var(--fsp-line, #dcdcde);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--fsp-ink, #23282d);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+
+      &.is-active {
+        border-color: var(--fsp-primary, #3273dc);
+        background: var(--fsp-primary, #3273dc);
+        color: #fff;
+      }
+    }
+
+    .fsp-compare-table {
+      thead {
+        display: none;
+      }
+
+      td {
+        width: 32%;
+      }
+
+      td.is-featured {
+        background: none;
+      }
+
+      td[data-plan]:not(.is-shown) {
+        display: none;
+      }
+    }
+  }
+}

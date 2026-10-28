@@ -35,7 +35,7 @@
 
       &.fs-package-tab--selected {
         a {
-          border-color: #3274dc;
+          border-color: var(--fsp-primary, #3273dc);
         }
       }
     }
@@ -158,11 +158,23 @@
             font-size: 17px;
             max-width: inherit;
           }
+          &.sub {
+            padding-left: 26px;
+            color: var(--fsp-muted, #606060);
+          }
+
           .fs-feature-pro {
-            position: relative;
-            margin-right: -3px;
+            display: inline-block;
             margin-left: 8px;
-            top: 2px;
+            padding: 1px 7px;
+            border-radius: 4px;
+            background: var(--fsp-primary-soft, #eef4ff);
+            color: var(--fsp-primary, #3273dc);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            line-height: 1.6;
+            vertical-align: middle;
           }
         }
       }

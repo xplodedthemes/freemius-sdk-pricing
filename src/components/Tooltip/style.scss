@@ -3,7 +3,7 @@
   .fs-tooltip {
     cursor: help;
     position: relative;
-    color: #3273dc !important;
+    color: var(--fsp-primary, #3273dc) !important;
 
     .fs-tooltip-message {
       position: absolute;

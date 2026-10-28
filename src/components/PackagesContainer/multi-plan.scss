@@ -1,0 +1,266 @@
+// The pricing cards, in a grid that wraps (four across, two on tablets, one on phones) instead of the old
+// slider: a card per plan (several paid plans, like WPCode's Basic, Plus, Pro and Bundle) or a card per site
+// count (one paid plan). Colors come from the --fsp-* variables (the plugin's brand), with the pricing page's
+// own defaults.
+#root,
+#fs_pricing_app {
+  .fs-section--packages .fs-section--cards {
+    .fs-prev-package,
+    .fs-next-package,
+    .fs-packages-tab,
+    .fs-packages-menu {
+      display: none !important;
+    }
+
+    .fs-packages-nav {
+      width: auto !important;
+      max-width: 1200px;
+      overflow: visible;
+
+      &:before,
+      &:after {
+        display: none;
+      }
+    }
+
+    .fs-packages,
+    .fs-has-featured-plan .fs-packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      align-items: stretch;
+      width: auto !important;
+      left: 0 !important;
+      margin: 0 auto 8px;
+      padding: 16px 16px 0;
+      border-radius: 0;
+
+      &:before {
+        display: none;
+      }
+    }
+
+    .fs-package {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: auto !important;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+      border: 1px solid var(--fsp-line, #e4e4e4);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: none;
+      text-align: left;
+
+      &.fs-featured-plan {
+        border: 2px solid var(--fsp-primary, #3273dc);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      }
+
+      .fs-most-popular {
+        display: none;
+      }
+
+      &.fs-featured-plan .fs-most-popular {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 1;
+        display: block;
+        margin: 0;
+        padding: 0;
+        background: none;
+        transform: translate(-50%, -50%);
+
+        h4 {
+          margin: 0;
+          padding: 4px 12px;
+          border-radius: 999px;
+          background: var(--fsp-featured, var(--fsp-primary, #3273dc));
+          color: #fff;
+          font-size: 11px;
+          letter-spacing: 0.04em;
+          line-height: 1.4;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .fs-package-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 24px 20px 20px;
+      border: 0;
+      background: none;
+    }
+
+    .fs-plan-title,
+    .fs-featured-plan .fs-plan-title {
+      margin: 0 0 4px;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--fsp-ink, #23282d);
+      font-size: 20px;
+      text-align: left;
+      text-transform: none;
+    }
+
+    .fs-plan-description {
+      margin: 0 0 12px;
+      color: var(--fsp-muted, #606060);
+      font-size: 13px;
+      font-weight: 400;
+      text-align: left;
+    }
+
+    .fs-undiscounted-price {
+      align-self: flex-start;
+      width: auto;
+      margin: 0;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    .fs-selected-pricing-amount {
+      justify-content: flex-start;
+      margin: 4px 0 0;
+      text-align: left;
+    }
+
+    .fs-selected-pricing-cycle,
+    .fs-selected-pricing-license-quantity {
+      margin: 2px 0 0;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    .fs-support-and-main-features {
+      margin: 16px 0 0;
+      padding: 14px 0 0;
+      border-top: 1px solid var(--fsp-line-soft, #f0f0f0);
+      text-align: left;
+
+      .fs-plan-support {
+        margin: 0 0 6px;
+        color: var(--fsp-ink, #23282d);
+        font-size: 13px;
+      }
+
+      .fs-plan-features-with-value li {
+        justify-content: flex-start;
+        margin: 0;
+        font-size: 13px;
+        text-align: left;
+      }
+    }
+
+    .fs-license-quantities {
+      margin: 12px 0 0;
+    }
+
+    .fs-upgrade-button-container {
+      margin: 18px 0 0;
+      padding: 0;
+    }
+
+    .fs-upgrade-button {
+      width: 100%;
+      margin: 0;
+      padding: 12px 16px;
+      border: 1px solid var(--fsp-primary, #3273dc);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--fsp-primary, #3273dc);
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        background: var(--fsp-primary, #3273dc);
+        color: #fff;
+      }
+
+      &.fs-upgrade-button--current,
+      &.fs-upgrade-button--current:hover {
+        border-color: var(--fsp-line, #e4e4e4);
+        background: var(--fsp-soft, #f6f7f7);
+        color: var(--fsp-muted, #606060);
+        cursor: default;
+      }
+    }
+
+    .fs-featured-plan .fs-upgrade-button:not(.fs-upgrade-button--current) {
+      background: var(--fsp-primary, #3273dc);
+      color: #fff;
+
+      &:hover,
+      &:focus-visible {
+        filter: brightness(0.92);
+      }
+    }
+
+    .fs-plan-free-note {
+      display: block;
+      padding: 12px 0;
+      color: var(--fsp-muted, #606060);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .fs-plan-added {
+      margin: 20px 0 0;
+      padding: 16px 0 0;
+      border-top: 1px solid var(--fsp-line-soft, #f0f0f0);
+    }
+
+    .fs-plan-added-title {
+      margin: 0 0 8px;
+      color: var(--fsp-ink, #23282d);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .fs-plan-added-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: flex;
+        gap: 8px;
+        margin: 0;
+        padding: 4px 0;
+        color: var(--fsp-text, #3c434a);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      svg {
+        flex: none;
+        margin-top: 3px;
+        color: var(--fsp-primary, #3273dc);
+        font-size: 12px;
+      }
+    }
+
+    .fs-plan-added-more {
+      display: inline-block;
+      margin-top: 6px;
+      color: var(--fsp-primary, #3273dc);
+      font-size: 13px;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
