@@ -40,11 +40,14 @@
       }
     }
 
+    // Cards share the row but never grow past 360px, so a lone card sits centered instead of stretching.
     .fs-package {
       position: relative;
       display: flex;
       flex-direction: column;
-      width: auto !important;
+      justify-self: center;
+      width: 100% !important;
+      max-width: 360px;
       margin: 0;
       padding: 0;
       overflow: visible;
