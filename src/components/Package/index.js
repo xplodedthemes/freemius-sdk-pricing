@@ -284,9 +284,15 @@ class Package extends Component {
 
       if (planPackage.hasEmailSupport()) {
         supportedChannels.push(
-          (this.context.priorityEmailSupportPlanID == planPackage.id
-            ? 'Priority '
-            : '') + 'Email'
+          (
+            (this.context.priorityEmailSupportPlanIDs || []).length
+              ? this.context.priorityEmailSupportPlanIDs.includes(
+                  String(planPackage.id)
+                )
+              : this.context.priorityEmailSupportPlanID == planPackage.id
+          )
+            ? 'Priority Email'
+            : 'Email'
         );
       }
 

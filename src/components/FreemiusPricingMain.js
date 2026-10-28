@@ -762,6 +762,15 @@ class FreemiusPricingMain extends Component {
           plansCount: plansCount,
           plugin: plugin,
           priorityEmailSupportPlanID: priorityEmailSupportPlanID,
+          // Plans that list a "Priority support" feature get priority email; without one, Freemius's own rule
+          // (the last plan with email support) applies.
+          priorityEmailSupportPlanIDs: pricingData.plans
+            .filter(plan =>
+              (plan.features || []).some(feature =>
+                /^\s*priority support\s*$/i.test(feature.title || '')
+              )
+            )
+            .map(plan => String(plan.id)),
           reviews: pricingData.reviews,
           selectedBillingCycle: selectedBillingCycle,
           skipDirectlyToPayPal:
