@@ -228,8 +228,11 @@
           border-radius: 20px;
           overflow: hidden;
 
+          // Each option centers its label (and its "Save" pill) on one line, so short and long options line up.
           li {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             white-space: nowrap;
             font-weight: bold;
             margin: 0;

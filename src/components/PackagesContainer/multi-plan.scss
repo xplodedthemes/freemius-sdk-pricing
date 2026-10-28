@@ -238,9 +238,19 @@
 
       li {
         display: flex;
+        justify-content: flex-start;
         gap: 8px;
         margin: 0;
         padding: 4px 0;
+        text-align: left;
+
+        .fs-icon {
+          flex: none;
+        }
+
+        > span:not(.fs-icon) {
+          flex: 1;
+        }
         color: var(--fsp-text, #3c434a);
         font-size: 13px;
         line-height: 1.4;
