@@ -603,6 +603,11 @@ class PackagesContainer extends Component {
       ).concat(visiblePlanPackages);
     }
 
+    let moduleIsPro = false;
+    const usesModuleStars = (
+      (visiblePlanPackages[0] || {}).nonhighlighted_features || []
+    ).some(feature => /^\s*\*/.test((feature && feature.title) || ''));
+
     let packageComponents = [],
       isFirstPlanPackage = true,
       firstPlan = null,
@@ -800,7 +805,11 @@ class PackagesContainer extends Component {
             <h1>Features</h1>
             <div className="fs-package-merged">
               <ul className="fs-plan-features">
-                {firstPlan.nonhighlighted_features.map(feature => {
+                {firstPlan.nonhighlighted_features.map((feature, index) => {
+                  if (0 === index) {
+                    moduleIsPro = false;
+                  }
+
                   if (!Helper.isNonEmptyString(feature.title)) {
                     return (
                       <li key={feature.id}>
@@ -817,6 +826,16 @@ class PackagesContainer extends Component {
                     );
 
                   const isSubFeature = feature.title.search('--') !== -1;
+
+                  // A module: a "*" title when the product marks its modules that way, otherwise a feature with
+                  // "--" items under it. Modules are headings; their items are listed under them.
+                  const next =
+                    firstPlan.nonhighlighted_features[index + 1] || {};
+                  const isModule =
+                    !isSubFeature &&
+                    (usesModuleStars
+                      ? isBold
+                      : /^\s*--/.test(next.title || ''));
 
                   const cleanTitle = feature.title
                     .replace(/^\s*--\s*/, '')
@@ -839,6 +858,14 @@ class PackagesContainer extends Component {
                     proFeatures++;
                   }
 
+                  // A Pro module carries the PRO pill once, on its heading, not on each of its items.
+                  if (!isSubFeature) {
+                    moduleIsPro = isModule && !!isPremiumOnly;
+                  }
+
+                  const showPremiumBadge =
+                    isPremiumOnly && !(isSubFeature && moduleIsPro);
+
                   return (
                     <li
                       key={feature.id}
@@ -846,11 +873,11 @@ class PackagesContainer extends Component {
                         (proFeatures === 1 ? 'first-pro-feature ' : '') +
                         (isPremiumOnly ? 'pro ' : '') +
                         (isBold ? 'featured ' : '') +
+                        (isModule ? 'module ' : '') +
                         (isSubFeature ? ' sub' : '')
                       ).trim()}
                     >
-                      {!isSubFeature && <Icon icon={['fas', 'check']} />}
-                      {isSubFeature && <span>&nbsp;&nbsp;</span>}
+                      {!isModule && <Icon icon={['fas', 'check']} />}
                       <span className="fs-feature-title">
                         <span>{featureTitle}</span>
                       </span>
@@ -859,7 +886,7 @@ class PackagesContainer extends Component {
                           <Fragment>{feature.description}</Fragment>
                         </Tooltip>
                       )}
-                      {isPremiumOnly && (
+                      {showPremiumBadge && (
                         <Tooltip IconComponent={PremiumBadge}>
                           <Fragment>
                             This is a premium feature, unavailable within the

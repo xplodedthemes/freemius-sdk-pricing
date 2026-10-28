@@ -130,42 +130,70 @@
     }
     .fs-package-merged {
       width: 100% !important;
-      max-width: 700px;
+      max-width: 760px;
 
+      // Every feature of the plan, module by module: a banded heading per module (a "*" title, or a feature
+      // with "--" items), its items under it, evenly spaced, like the plan comparison.
       .fs-plan-features {
-        margin-left: 0;
-        padding: 25px 30px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid var(--fsp-line, #e4e4e4);
+        border-radius: 12px;
+        background: #fff;
+        list-style: none;
+        text-align: left;
 
         li {
-          font-size: 16px;
-          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin: 0;
+          padding: 11px 18px;
+          border-bottom: 1px solid var(--fsp-line-soft, #f0f0f0);
+          color: var(--fsp-text, #3c434a);
+          font-size: 15px;
+          line-height: 1.4;
 
-          &:not(:last-of-type) {
-            border-bottom: 1px dotted #eaeaea;
-            padding-bottom: 10px;
-          }
-
-          &.sub {
-            margin-bottom: 10px;
+          &:last-of-type {
+            border-bottom: 0;
           }
 
           &.featured,
           &.first-pro-feature {
-            margin-top: 30px;
+            margin-top: 0;
           }
 
-          > span {
-            font-size: 17px;
-            max-width: inherit;
+          > .fs-icon {
+            flex: none;
+            color: var(--fsp-primary, #3273dc);
+            font-size: 13px;
           }
+
+          .fs-feature-title {
+            flex: 1;
+            max-width: none;
+            font-size: inherit;
+          }
+
+          &.module {
+            border-top: 1px solid var(--fsp-line, #e4e4e4);
+            background: var(--fsp-soft, #f6f7f7);
+            color: var(--fsp-ink, #23282d);
+            font-size: 16px;
+            font-weight: 700;
+
+            &:first-child {
+              border-top: 0;
+            }
+          }
+
           &.sub {
-            padding-left: 26px;
-            color: var(--fsp-muted, #606060);
+            padding-left: 34px;
           }
 
           .fs-feature-pro {
             display: inline-block;
-            margin-left: 8px;
             padding: 1px 7px;
             border-radius: 4px;
             background: var(--fsp-primary-soft, #eef4ff);
