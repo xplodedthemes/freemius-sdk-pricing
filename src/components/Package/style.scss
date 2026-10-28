@@ -71,6 +71,47 @@
       }
     }
 
+    // A first-year offer: what it saves as a badge, then the regular price struck through, large enough to
+    // read as a promotion.
+    .fs-undiscounted-price.fs-intro-offer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      top: 0;
+      color: var(--fsp-muted, #606060);
+    }
+
+    .fs-intro-savings {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--fsp-primary-soft, #eef4ff);
+      color: var(--fsp-primary, #3273dc);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+
+    .fs-intro-was {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.1;
+      text-decoration: line-through;
+      text-decoration-color: #e85347;
+      text-decoration-thickness: 2px;
+    }
+
+    .fs-intro-renews {
+      display: block;
+      margin-top: 2px;
+      color: var(--fsp-muted, #606060);
+      font-size: 12px;
+      font-weight: 400;
+      text-transform: none;
+    }
+
     .fs-selected-pricing-amount {
       margin: 5px 0;
 

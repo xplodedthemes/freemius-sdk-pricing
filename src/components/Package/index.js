@@ -3,6 +3,7 @@ import FSPricingContext from '../../FSPricingContext';
 import { BillingCycle, BillingCycleString } from '../../entities/Pricing';
 import { PlanManager } from '../../services/PlanManager';
 import Tooltip from '../Tooltip';
+import { introOffer } from '../../services/IntroOffer';
 import Icon from '../Icon';
 import { Helper } from '../../Helper';
 import { Plan } from '../../entities/Plan';
@@ -116,7 +117,25 @@ class Package extends Component {
     return label;
   }
 
-  getUndiscountedPrice(planPackage, selectedPricing) {
+  getUndiscountedPrice(planPackage, selectedPricing, offer = null) {
+    const symbol = this.context.currencySymbols[this.context.selectedCurrency];
+
+    // A first-year offer: the regular price struck through and what the first year saves.
+    if (offer) {
+      return (
+        <div className="fs-undiscounted-price fs-intro-offer">
+          <span className="fs-intro-savings">
+            Save {symbol}
+            {Helper.formatNumber(offer.savings, Package.locale)} the first year
+          </span>
+          <s className="fs-intro-was">
+            {symbol}
+            {Helper.formatNumber(offer.regularPrice, Package.locale)}
+          </s>
+        </div>
+      );
+    }
+
     if (
       BillingCycleString.ANNUAL !== this.context.selectedBillingCycle ||
       !(this.context.annualDiscount > 0)
@@ -225,7 +244,8 @@ class Package extends Component {
       pricingCollection = {},
       selectedPricing = null,
       selectedPricingAmount = null,
-      supportLabel = null;
+      supportLabel = null,
+      offer = null;
 
     if (this.props.isFirstPlanPackage) {
       Package.contextInstallPlanFound = false;
@@ -268,6 +288,21 @@ class Package extends Component {
             )
           : selectedPricing[`${this.context.selectedBillingCycle}_price`]
       ).toString();
+
+      // A first-year offer shows the first payment; the regular price is shown as the renewal price.
+      offer = introOffer(
+        planPackage,
+        selectedPricing,
+        this.context.selectedBillingCycle,
+        this.context.selectedCurrency
+      );
+
+      if (offer) {
+        selectedPricingAmount = Helper.formatNumber(
+          offer.firstPrice,
+          'en-US'
+        ).toString();
+      }
     }
 
     if (!planPackage.hasAnySupport()) {
@@ -358,7 +393,7 @@ class Package extends Component {
           <h3 className="fs-plan-description">
             <strong>{planPackage.description_lines}</strong>
           </h3>
-          {this.getUndiscountedPrice(planPackage, selectedPricing)}
+          {this.getUndiscountedPrice(planPackage, selectedPricing, offer)}
           <div className="fs-selected-pricing-amount">
             <strong className="fs-currency-symbol">
               {!planPackage.is_free_plan
@@ -386,7 +421,21 @@ class Package extends Component {
           </div>
           <div className="fs-selected-pricing-cycle">
             {!planPackage.is_free_plan ? (
-              <strong>{this.billingCycleLabel()}</strong>
+              <Fragment>
+                <strong>{this.billingCycleLabel()}</strong>
+                {offer && (
+                  <span className="fs-intro-renews">
+                    {`Renews at ${
+                      this.context.currencySymbols[
+                        this.context.selectedCurrency
+                      ]
+                    }${Helper.formatNumber(
+                      offer.regularPrice,
+                      Package.locale
+                    )} / year`}
+                  </span>
+                )}
+              </Fragment>
             ) : (
               <Placeholder />
             )}

@@ -38,6 +38,7 @@ import { getTrustedRequestHandlerUrl } from '../services/RequestSecurity';
 import { FS } from '../postmessage';
 import Loader from './Loader';
 import TrialConfirmationModal from './TrialConfirmationModal';
+import { introOffer } from '../services/IntroOffer';
 
 class FreemiusPricingMain extends Component {
   static contextType = FSPricingContext;
@@ -387,6 +388,17 @@ class FreemiusPricingMain extends Component {
 
       if (null !== pricing) {
         params.pricing_id = pricing.id;
+
+        const offer = introOffer(
+          plan,
+          pricing,
+          this.state.selectedBillingCycle,
+          this.state.selectedCurrency
+        );
+
+        if (offer) {
+          params.coupon = offer.coupon;
+        }
       } else {
         params.licenses =
           UnlimitedLicenses == this.state.selectedLicenseQuantity
@@ -468,6 +480,18 @@ class FreemiusPricingMain extends Component {
           pricing_id: pricing.id,
           currency: this.state.selectedCurrency,
         };
+
+        // The first-year offer's coupon, so the checkout charges the price the card showed.
+        const offer = introOffer(
+          plan,
+          pricing,
+          billingCycle,
+          this.state.selectedCurrency
+        );
+
+        if (offer) {
+          urlParams.coupon = offer.coupon;
+        }
 
         if (!hasParentUrl) {
           PageManager.getInstance().redirect(window.location.href, urlParams);
