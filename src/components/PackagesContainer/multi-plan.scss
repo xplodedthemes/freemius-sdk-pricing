@@ -101,6 +101,7 @@
       background: none;
     }
 
+    // The top of the card (name, price, billing, sites, support) is centered; the feature list below it is not.
     .fs-plan-title,
     .fs-featured-plan .fs-plan-title {
       margin: 0 0 4px;
@@ -109,7 +110,7 @@
       background: none;
       color: var(--fsp-ink, #23282d);
       font-size: 20px;
-      text-align: left;
+      text-align: center;
       text-transform: none;
     }
 
@@ -118,35 +119,35 @@
       color: var(--fsp-muted, #606060);
       font-size: 13px;
       font-weight: 400;
-      text-align: left;
+      text-align: center;
     }
 
     .fs-undiscounted-price {
-      align-self: flex-start;
+      align-self: center;
       width: auto;
-      margin: 0;
+      margin: 8px 0 0;
       font-size: 12px;
-      text-align: left;
+      text-align: center;
     }
 
     .fs-selected-pricing-amount {
-      justify-content: flex-start;
+      justify-content: center;
       margin: 4px 0 0;
-      text-align: left;
+      text-align: center;
     }
 
     .fs-selected-pricing-cycle,
     .fs-selected-pricing-license-quantity {
       margin: 2px 0 0;
       font-size: 12px;
-      text-align: left;
+      text-align: center;
     }
 
     .fs-support-and-main-features {
       margin: 16px 0 0;
       padding: 14px 0 0;
       border-top: 1px solid var(--fsp-line-soft, #f0f0f0);
-      text-align: left;
+      text-align: center;
 
       .fs-plan-support {
         margin: 0 0 6px;
@@ -155,10 +156,10 @@
       }
 
       .fs-plan-features-with-value li {
-        justify-content: flex-start;
+        justify-content: center;
         margin: 0;
         font-size: 13px;
-        text-align: left;
+        text-align: center;
       }
     }
 
@@ -275,5 +276,13 @@
         text-decoration: underline;
       }
     }
+  }
+
+  // One plan sold by site count: the card's title already names the site count, so the line under the price
+  // would repeat it.
+  .fs-section--packages
+    .fs-section--single-plan
+    .fs-selected-pricing-license-quantity {
+    display: none;
   }
 }

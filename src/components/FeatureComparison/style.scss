@@ -261,6 +261,22 @@
       td[data-plan]:not(.is-shown) {
         display: none;
       }
+
+      // Explanations hang from the row's edge and stay inside the screen, so the page never scrolls sideways.
+      tbody th {
+        position: relative;
+      }
+    }
+
+    .fsp-compare-name {
+      position: static;
+    }
+
+    .fsp-compare-tip-text {
+      right: 8px;
+      left: 8px;
+      width: auto;
+      max-width: none;
     }
   }
 }
