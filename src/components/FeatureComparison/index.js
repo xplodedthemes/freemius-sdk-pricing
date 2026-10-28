@@ -34,6 +34,8 @@ export default function FeatureComparison({ plans, featured }) {
   }
 
   const isSub = title => /^\s*--/.test(title);
+  const isModule = title => /^\s*\*/.test(title);
+  const usesStars = rows.some(feature => isModule(feature.title));
   const clean = title =>
     title
       .replace(/^\s*--\s*/, '')
@@ -127,11 +129,13 @@ export default function FeatureComparison({ plans, featured }) {
         <tbody>
           {rows.map((feature, index) => {
             const sub = isSub(feature.title);
-            // A module: a "*" title, or a feature with "--" items under it.
+            // A module: a "*" title when the product marks its modules that way, otherwise a feature with "--"
+            // items under it.
             const hasSubs =
               !sub &&
-              (/^\s*\*/.test(feature.title) ||
-                (rows[index + 1] && isSub(rows[index + 1].title)));
+              (usesStars
+                ? isModule(feature.title)
+                : rows[index + 1] && isSub(rows[index + 1].title));
             const tip = feature.description ? `fsp-tip-${feature.id}` : null;
 
             return (
