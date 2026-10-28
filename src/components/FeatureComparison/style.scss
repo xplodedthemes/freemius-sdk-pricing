@@ -12,6 +12,7 @@
   }
 
   .fsp-compare {
+    scroll-margin-top: calc(var(--wp-admin--admin-bar--height, 32px) + 16px);
     max-width: 1100px;
     margin: 56px auto 40px;
     padding: 0 16px;
@@ -105,8 +106,17 @@
       background: var(--fsp-primary-soft, #f2f7ff);
     }
 
+    // Modules are banded, so their features read as theirs; the rows above the first module (support, AI)
+    // stay plain.
+    tr.is-group th,
+    tr.is-group td {
+      border-top: 1px solid var(--fsp-line, #e4e4e4);
+      background: var(--fsp-soft, #f6f7f7);
+    }
+
     tr.is-group th {
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
     }
 
     tr.is-sub th {

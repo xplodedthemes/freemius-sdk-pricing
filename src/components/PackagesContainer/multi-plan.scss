@@ -265,6 +265,11 @@
       }
     }
 
+    .fs-plan-added-group {
+      color: var(--fsp-ink, #23282d);
+      font-weight: 600;
+    }
+
     .fs-plan-added-more {
       display: inline-block;
       margin-top: 6px;

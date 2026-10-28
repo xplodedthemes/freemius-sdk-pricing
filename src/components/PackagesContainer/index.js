@@ -552,9 +552,12 @@ class PackagesContainer extends Component {
       for (const plan of visiblePlanPackages) {
         const before = ids(previous);
         const added = [];
-        let parentAdded = false;
+        let parent = null,
+          parentAdded = false,
+          parentLine = null;
 
-        // A new group counts once; a new "--" item counts when its group was already in the plan before.
+        // A new group is one line. New "--" items of a group the plan before already had share one line, under
+        // the group's name ("File Editor: Auto Save, Full Screen"), so every item says which module it is in.
         for (const feature of plan.features || []) {
           const isSub = /^\s*--/.test(feature.title || '');
           const isNew =
@@ -564,11 +567,24 @@ class PackagesContainer extends Component {
             !before.includes(feature.id);
 
           if (!isSub) {
+            parent = feature;
             parentAdded = !!isNew;
-          }
+            parentLine = null;
 
-          if (isNew && (!isSub || !parentAdded)) {
-            added.push(feature);
+            if (isNew) {
+              added.push({ id: feature.id, title: feature.title, items: [] });
+            }
+          } else if (isNew && !parentAdded) {
+            if (!parentLine) {
+              parentLine = {
+                id: feature.id,
+                title: parent ? parent.title : '',
+                items: [],
+              };
+              added.push(parentLine);
+            }
+
+            parentLine.items.push(feature.title);
           }
         }
 

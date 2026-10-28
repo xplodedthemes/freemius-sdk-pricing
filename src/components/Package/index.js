@@ -133,13 +133,16 @@ class Package extends Component {
     }
 
     return (
+      // What the same plan costs a year when paid monthly (not a regular or renewal price: yearly renews as is).
       <div className="fs-undiscounted-price">
-        Normally {this.context.currencySymbols[this.context.selectedCurrency]}
-        {Helper.formatNumber(
-          selectedPricing.getAmount(BillingCycle.MONTHLY) * 12,
-          Package.locale
-        )}{' '}
-        / year
+        <s>
+          {this.context.currencySymbols[this.context.selectedCurrency]}
+          {Helper.formatNumber(
+            selectedPricing.getAmount(BillingCycle.MONTHLY) * 12,
+            Package.locale
+          )}
+        </s>{' '}
+        / year if paid monthly
       </div>
     );
   }
@@ -537,19 +540,57 @@ class Package extends Component {
                   : 'Includes:'}
               </p>
               <ul className="fs-plan-added-list">
-                {planPackage.addedFeatures.map(feature => (
-                  <li key={feature.id}>
-                    <Icon icon={['fas', 'check']} />
-                    <span>
-                      {feature.title
-                        .replace(/^\s*--\s*/, '')
-                        .replace(/\*/g, '')}
-                    </span>
-                  </li>
-                ))}
+                {planPackage.addedFeatures.map(feature => {
+                  const clean = title =>
+                    title.replace(/^\s*--\s*/, '').replace(/\*/g, '');
+                  const items = (feature.items || []).map(clean);
+
+                  return (
+                    <li key={feature.id}>
+                      <Icon icon={['fas', 'check']} />
+                      <span>
+                        {items.length > 0 ? (
+                          <Fragment>
+                            <span className="fs-plan-added-group">
+                              {clean(feature.title)}:
+                            </span>{' '}
+                            {items.length > 3
+                              ? `${items.slice(0, 2).join(', ')} and ${
+                                  items.length - 2
+                                } more`
+                              : items.join(', ')}
+                          </Fragment>
+                        ) : (
+                          clean(feature.title)
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
               {planPackage.moreFeaturesCount > 0 && (
-                <a className="fs-plan-added-more" href="#fsp-compare">
+                <a
+                  className="fs-plan-added-more"
+                  href="#fsp-compare"
+                  onClick={event => {
+                    const target = document.getElementById('fsp-compare');
+
+                    if (!target) {
+                      return;
+                    }
+
+                    // A smooth scroll to the comparison (an instant jump when the visitor asked for less motion).
+                    event.preventDefault();
+                    target.scrollIntoView({
+                      behavior: window.matchMedia(
+                        '(prefers-reduced-motion: reduce)'
+                      ).matches
+                        ? 'auto'
+                        : 'smooth',
+                      block: 'start',
+                    });
+                  }}
+                >
                   {`+ ${planPackage.moreFeaturesCount} more in the comparison`}
                 </a>
               )}

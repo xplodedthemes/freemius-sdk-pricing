@@ -127,8 +127,11 @@ export default function FeatureComparison({ plans, featured }) {
         <tbody>
           {rows.map((feature, index) => {
             const sub = isSub(feature.title);
+            // A module: a "*" title, or a feature with "--" items under it.
             const hasSubs =
-              !sub && rows[index + 1] && isSub(rows[index + 1].title);
+              !sub &&
+              (/^\s*\*/.test(feature.title) ||
+                (rows[index + 1] && isSub(rows[index + 1].title)));
             const tip = feature.description ? `fsp-tip-${feature.id}` : null;
 
             return (

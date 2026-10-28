@@ -65,14 +65,9 @@
       color: #808080;
       top: 6px;
 
-      &::after {
-        content: '';
-        border-bottom: 1px solid #dd89a8;
-        position: absolute;
-        left: -2px;
-        top: 50%;
-        width: 100%;
-        padding: 0px 2px;
+      // Only the amount is struck through: the rest says what it is (the price when paid monthly).
+      s {
+        text-decoration-color: #dd89a8;
       }
     }
 
