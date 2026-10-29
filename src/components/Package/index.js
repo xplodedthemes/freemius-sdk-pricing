@@ -621,7 +621,8 @@ class Package extends Component {
                   );
                 })}
               </ul>
-              {planPackage.moreFeaturesCount > 0 && (
+              {/* On every card, at its foot: what the card leaves out, or the full comparison. */}
+              {
                 <a
                   className="fs-plan-added-more"
                   href="#fsp-compare"
@@ -644,9 +645,11 @@ class Package extends Component {
                     });
                   }}
                 >
-                  {`+ ${planPackage.moreFeaturesCount} more in the comparison`}
+                  {planPackage.moreFeaturesCount > 0
+                    ? `+ ${planPackage.moreFeaturesCount} more in the comparison`
+                    : 'Compare all features'}
                 </a>
-              )}
+              }
             </div>
           )}
           {!isSinglePlan && !planPackage.addedFeatures && (

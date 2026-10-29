@@ -264,7 +264,10 @@
       text-align: center;
     }
 
+    // The features fill the card's last row, so the comparison link can sit at the very bottom of every card.
     .fs-plan-added {
+      display: flex;
+      flex-direction: column;
       margin: 20px 0 0;
       padding: 16px 0 0;
       border-top: 1px solid var(--fsp-line-soft, #f0f0f0);
@@ -317,7 +320,9 @@
 
     .fs-plan-added-more {
       display: inline-block;
-      margin-top: 6px;
+      align-self: flex-start;
+      margin-top: auto;
+      padding-top: 14px;
       color: var(--fsp-primary, #3273dc);
       font-size: 13px;
       text-decoration: none;
