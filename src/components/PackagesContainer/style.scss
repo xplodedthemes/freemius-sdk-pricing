@@ -131,6 +131,8 @@
     .fs-package-merged {
       width: 100% !important;
       max-width: 760px;
+      // The list draws its own rounded card; a background here would show square corners behind it.
+      background: none;
 
       // Every feature of the plan, module by module: a banded heading per module (a "*" title, or a feature
       // with "--" items), its items under it, evenly spaced, like the plan comparison.
