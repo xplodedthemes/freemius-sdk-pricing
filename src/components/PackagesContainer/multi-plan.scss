@@ -41,15 +41,21 @@
     }
 
     // Cards share the row but never grow past 360px, so a lone card sits centered instead of stretching.
+    // Every card uses the same rows (subgrid): name, promo, price, billing, sites, support, site counts, button,
+    // features. Each part has its row, so prices, buttons and feature lists line up across the cards, a card
+    // without a part leaves that row empty, and the cards of a row are as tall as each other.
     .fs-package {
       position: relative;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-row: span 10;
+      grid-template-rows: subgrid;
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 0;
       justify-self: center;
       width: 100% !important;
       max-width: 360px;
       margin: 0;
-      padding: 0;
+      padding: 24px 20px 20px;
       overflow: visible;
       border: 1px solid var(--fsp-line, #e4e4e4);
       border-radius: 12px;
@@ -57,9 +63,11 @@
       box-shadow: none;
       text-align: left;
 
+      // The featured card's thicker edge is drawn outside the border, so its content stays in line.
       &.fs-featured-plan {
-        border: 2px solid var(--fsp-primary, #3273dc);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        border-color: var(--fsp-primary, #3273dc);
+        box-shadow: 0 0 0 1px var(--fsp-primary, #3273dc),
+          0 12px 32px rgba(0, 0, 0, 0.08);
       }
 
       .fs-most-popular {
@@ -93,12 +101,48 @@
     }
 
     .fs-package-content {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      padding: 24px 20px 20px;
-      border: 0;
-      background: none;
+      display: contents;
+    }
+
+    .fs-plan-title {
+      grid-row: 1;
+    }
+
+    .fs-plan-description {
+      grid-row: 2;
+    }
+
+    .fs-undiscounted-price {
+      grid-row: 3;
+    }
+
+    .fs-selected-pricing-amount {
+      grid-row: 4;
+    }
+
+    .fs-selected-pricing-cycle {
+      grid-row: 5;
+    }
+
+    .fs-selected-pricing-license-quantity {
+      grid-row: 6;
+    }
+
+    .fs-support-and-main-features {
+      grid-row: 7;
+    }
+
+    .fs-license-quantities {
+      grid-row: 8;
+    }
+
+    .fs-upgrade-button-container {
+      grid-row: 9;
+    }
+
+    .fs-plan-added,
+    .fs-plan-features {
+      grid-row: 10;
     }
 
     // The top of the card (name, price, billing, sites, support) is centered; the feature list below it is not.
@@ -123,7 +167,8 @@
     }
 
     .fs-undiscounted-price {
-      align-self: center;
+      align-self: end;
+      justify-self: center;
       width: auto;
       margin: 8px 0 0;
       font-size: 12px;

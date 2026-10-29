@@ -152,24 +152,32 @@ class Package extends Component {
       return <Placeholder className={'fs-undiscounted-price'} />;
     }
 
+    const monthlyYear = selectedPricing.getAmount(BillingCycle.MONTHLY) * 12;
+    const annual = selectedPricing.getAmount(BillingCycle.ANNUAL);
+
+    if (!(monthlyYear > annual)) {
+      return <Placeholder className={'fs-undiscounted-price'} />;
+    }
+
+    // Yearly against paying monthly, in the same design as a first-year offer: what it saves, then what twelve
+    // monthly payments cost, struck through (not a regular or renewal price: yearly renews as is).
     return (
-      // What the same plan costs a year when paid monthly (not a regular or renewal price: yearly renews as is).
-      <div className="fs-undiscounted-price">
-        <s>
-          {this.context.currencySymbols[this.context.selectedCurrency]}
-          {Helper.formatNumber(
-            selectedPricing.getAmount(BillingCycle.MONTHLY) * 12,
-            Package.locale
-          )}
-        </s>{' '}
-        / year if paid monthly
+      <div className="fs-undiscounted-price fs-intro-offer">
+        <span className="fs-intro-savings">
+          Save {symbol}
+          {Helper.formatNumber(monthlyYear - annual, Package.locale)} vs monthly
+        </span>
+        <s className="fs-intro-was">
+          {symbol}
+          {Helper.formatNumber(monthlyYear, Package.locale)}
+        </s>
       </div>
     );
   }
 
   getSitesLabel(planPackage, selectedPricing, pricingLicenses) {
     if (planPackage.is_free_plan) {
-      return <Placeholder />;
+      return <Placeholder className="fs-selected-pricing-license-quantity" />;
     }
 
     return (

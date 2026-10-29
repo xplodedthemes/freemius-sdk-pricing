@@ -9,7 +9,15 @@ class Placeholder extends Component {
   }
 
   render() {
-    return <div className="fs-placeholder"></div>;
+    // A class lets a placeholder hold the place of the element it stands in for (its row in the card grid).
+    return (
+      <div
+        className={
+          'fs-placeholder' +
+          (this.props.className ? ' ' + this.props.className : '')
+        }
+      ></div>
+    );
   }
 }
 
