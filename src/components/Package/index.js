@@ -10,6 +10,7 @@ import { Plan } from '../../entities/Plan';
 import Placeholder from '../Placeholder';
 
 import './style.scss';
+import { formatFeatureValue } from '../../services/FeatureValue';
 
 class Package extends Component {
   static contextType = FSPricingContext;
@@ -461,12 +462,7 @@ class Package extends Component {
                   <li key={feature.id}>
                     <span className="fs-feature-title">
                       <span>
-                        <strong>
-                          {String(feature.value).replace(
-                            /\b\d{4,}\b/g,
-                            number => Number(number).toLocaleString('en-US')
-                          )}
-                        </strong>
+                        <strong>{formatFeatureValue(feature.value)}</strong>
                       </span>
                       <span className="fs-feature-title">
                         <span>{feature.title.replace(/^\s*--\s*/, '')}</span>

@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import Icon from '../Icon';
 
 import './style.scss';
+import { formatFeatureValue } from '../../services/FeatureValue';
 
 /**
  * Every feature, plan by plan: a row per feature with a check, a dash or the plan's value. Freemius features
@@ -41,10 +42,7 @@ export default function FeatureComparison({ plans, featured }) {
       .replace(/^\s*--\s*/, '')
       .replace(/\*/g, '')
       .trim();
-  const formatValue = value =>
-    String(value).replace(/\b\d{4,}\b/g, number =>
-      Number(number).toLocaleString('en-US')
-    );
+  const formatValue = formatFeatureValue;
 
   const cell = (plan, feature) => {
     const own = (plan.features || []).find(item => item.id == feature.id);
