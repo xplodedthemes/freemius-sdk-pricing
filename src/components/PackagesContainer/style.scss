@@ -137,7 +137,6 @@
       .fs-plan-features {
         margin: 0;
         padding: 0;
-        overflow: hidden;
         border: 1px solid var(--fsp-line, #e4e4e4);
         border-radius: 12px;
         background: #fff;
@@ -155,8 +154,15 @@
           font-size: 15px;
           line-height: 1.4;
 
+          // Rounded through the first and last rows, not overflow, so feature explanations can open past the
+          // list's edge.
+          &:first-child {
+            border-radius: 11px 11px 0 0;
+          }
+
           &:last-of-type {
             border-bottom: 0;
+            border-radius: 0 0 11px 11px;
           }
 
           &.featured,
